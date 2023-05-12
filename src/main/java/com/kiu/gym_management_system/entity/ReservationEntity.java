@@ -13,16 +13,26 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "reservation")
+
 public class ReservationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
     private int id;
+
+    @Column(name= "emp_code")
+    private String empCode;
     @Column(name = "title")
     private String title;
+
+    @Column(name = "calendar")
+    private String calendar;
     @Column(name = "reservation_type")
-    private String reservationType;
+    private int reservationType;
+
+    @Column(name = "status")
+    private int status;
     @Column(name = "start_date")
     private Date startDate;
     @Column(name = "end_date")
