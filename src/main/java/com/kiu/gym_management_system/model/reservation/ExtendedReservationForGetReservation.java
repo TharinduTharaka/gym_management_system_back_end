@@ -11,8 +11,8 @@ public class ExtendedReservationForGetReservation {
     @JsonProperty("calendar")
     private String calendar;
 
-    @JsonProperty("description")
-    private String description;
+//    @JsonProperty("description")
+//    private String description;
 
 
 }

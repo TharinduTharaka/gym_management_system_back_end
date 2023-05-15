@@ -37,7 +37,7 @@ public class ReservationManagerService implements ReservationManager {
 
         List<ReservationEntity> reservationEntityList = reservationRepository.findByEmpCode(empID);
         List<ReservationModel> reservationModelList = new ArrayList<>();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
         for (ReservationEntity reservation : reservationEntityList) {
             String strStartDate = dateFormat.format(reservation.getStartDate());
@@ -48,10 +48,33 @@ public class ReservationManagerService implements ReservationManager {
             reservationModel.setTitle(reservation.getTitle());
             reservationModel.setStart(strStartDate);
             reservationModel.setEnd(strEndDate);
+            reservationModel.setDescription(reservation.getDescription());
+            reservationModel.setEmpCode(reservation.getEmpCode());
+            reservationModel.setStatus(reservation.getStatus());
+            reservationModel.setReservationType(reservation.getReservationType());
+
+
 
             ExtendedReservationForGetReservation extendedReservationForGetReservation= new ExtendedReservationForGetReservation();
-            extendedReservationForGetReservation.setCalendar(reservation.getCalendar());
-            extendedReservationForGetReservation.setDescription(reservationModel.getDescription());
+            switch (reservation.getReservationType()){
+                case 0:
+                    extendedReservationForGetReservation.setCalendar("Cardio");
+                    break;
+                case 1:
+                    extendedReservationForGetReservation.setCalendar("Business");
+                    break;
+                case 2:
+                    extendedReservationForGetReservation.setCalendar("Family");
+                    break;
+                case 3:
+                    extendedReservationForGetReservation.setCalendar("Holiday");
+                    break;
+                case 4:
+                    extendedReservationForGetReservation.setCalendar("ETC");
+                    break;
+            }
+
+//            extendedReservationForGetReservation.setDescription(reservationModel.getDescription());
             reservationModel.setExtendedProps(extendedReservationForGetReservation);
             reservationModelList.add(reservationModel);
 

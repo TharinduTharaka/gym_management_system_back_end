@@ -18,18 +18,22 @@ public class ScheduleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
     private int id;
-
+    @Column(name = "emp_code")
+    private String empCode;
     @Column(name = "title")
     private String title;
-    @Column(name = "date")
-    private Date date;
+    @Column(name = "start_date")
+    private Date startDate;
+    @Column(name = "end_date")
+    private Date endDate;
     @Column(name = "week_day")
-    private String weekDay;
+    private int weekDay;
+    @Column(name = "status")
+    private int status;
     @Column(name = "description")
     private String description;
     @Column(name = "instructor_name")
     private String instructorName;
-    @Column(name = "status")
-    private int Status;
+
 
 }
