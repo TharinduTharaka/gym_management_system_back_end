@@ -21,9 +21,21 @@ public class ReservationController {
         return reservationManagerService.getAllReservation();
     }
 
-    @GetMapping("/get-user-reservation/{emp_id}/{config}")
+    @GetMapping("/get-user-all-reservation/{emp_id}/{config}")
     public Response getAllUserReservation(@PathVariable String emp_id,@PathVariable String config) {
         return reservationManagerService.getAllUserReservation(emp_id);
+    }
+
+    @GetMapping("/get-user-reservation/{emp_id}/{id}")
+    public Response getUserReservation(@PathVariable String emp_id,
+                                    @PathVariable int id) {
+        return reservationManagerService.getUserReservation(emp_id, id);
+    }
+
+    @GetMapping("/get-user-filter-reservation/{emp_id}")
+    public Response getUserFilterReservationData(@PathVariable String emp_id,
+                                             @RequestParam(value = "status") int status) {
+        return reservationManagerService.getUserFilterReservationData(emp_id, status);
     }
 
     @PostMapping("/create-reservation/{emp_id}")
@@ -36,10 +48,17 @@ public class ReservationController {
         return reservationManagerService.editReservation(id, reservationModel);
     }
 
+    @PutMapping("/update-status-reservation/{id}")
+    public Response editStatusReservation(@PathVariable int id,
+                                    @RequestParam(value = "status") int status) {
+        return reservationManagerService.editStatusReservation(status,id);
+    }
 
-    @DeleteMapping("/delete-reservation/{id}")
-    public Response deleteReservation(@PathVariable int id) {
-        return reservationManagerService.deleteReservation(id);
+
+    @PutMapping("/delete-reservation/{id}")
+    public Response deleteReservation(@PathVariable int id,
+                                      @RequestParam(value = "status") int status) {
+        return reservationManagerService.deleteReservation(status,id);
     }
 
 }

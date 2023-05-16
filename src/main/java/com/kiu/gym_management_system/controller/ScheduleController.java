@@ -32,6 +32,12 @@ public class ScheduleController {
         return scheduleManagerService.getUserSchedule(emp_id, id);
     }
 
+    @GetMapping("/get-user-filter-schedule/{emp_id}")
+    public Response getUserFilterReservationData(@PathVariable String emp_id,
+                                                 @RequestParam(value = "status") int status) {
+        return scheduleManagerService.getUserFilterScheduleData(emp_id, status);
+    }
+
     @PostMapping("/create-schedule/{emp_id}")
     public Response createSchedule(@PathVariable String emp_id,
                                    @RequestBody ScheduleModel scheduleModel) {

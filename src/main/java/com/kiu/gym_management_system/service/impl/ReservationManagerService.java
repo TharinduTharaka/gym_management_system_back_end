@@ -54,9 +54,8 @@ public class ReservationManagerService implements ReservationManager {
             reservationModel.setReservationType(reservation.getReservationType());
 
 
-
-            ExtendedReservationForGetReservation extendedReservationForGetReservation= new ExtendedReservationForGetReservation();
-            switch (reservation.getReservationType()){
+            ExtendedReservationForGetReservation extendedReservationForGetReservation = new ExtendedReservationForGetReservation();
+            switch (reservation.getReservationType()) {
                 case 0:
                     extendedReservationForGetReservation.setCalendar("Cardio");
                     break;
@@ -84,6 +83,43 @@ public class ReservationManagerService implements ReservationManager {
         response.setCode(200);
         response.setData(reservationModelList);
         response.setMsg("Get user's Reservations");
+        return response;
+    }
+
+    @Override
+    public Response getUserFilterReservationData(String empID, int status) {
+
+//        List<ReservationEntity> reservationEntityList = reservationRepository.findByStatusAndEmpCode(status,empID);
+
+
+//        if (reservation.isPresent()) {
+//            ReservationEntity obj = reservation.get();
+//            obj.setStatus(status);
+//            reservationRepository.save(obj);
+//            response.setCode(200);
+//            response.setMsg("Update Reservation Successful");
+////            response.setData(reservationRepository.findById(obj.getId()));
+//            return response;
+//        } else {
+//            response.setCode(404);
+//            response.setMsg("Not Found");
+//            return response;
+//        }
+        Response response = new Response();
+        response.setCode(200);
+        response.setData(reservationRepository.findByStatusAndEmpCode(status,empID));
+        response.setMsg("Get user's filter Reservation Data");
+        return response;
+
+    }
+
+    @Override
+    public Response getUserReservation(String empID, int id) {
+
+        Response response = new Response();
+        response.setCode(200);
+        response.setData(reservationRepository.findByIdAndEmpCode(id, empID));
+        response.setMsg("Get user's Reservation Data");
         return response;
     }
 
@@ -171,10 +207,46 @@ public class ReservationManagerService implements ReservationManager {
     }
 
     @Override
-    public Response deleteReservation(int id) {
+    public Response editStatusReservation(int status, int id) {
+
         Response response = new Response();
-        response.setCode(200);
-        response.setMsg("Delete Reservation Successful");
-        return response;
+        Optional<ReservationEntity> reservation = reservationRepository.findById(id);
+
+
+        if (reservation.isPresent()) {
+            ReservationEntity obj = reservation.get();
+            obj.setStatus(status);
+            reservationRepository.save(obj);
+            response.setCode(200);
+            response.setMsg("Update Reservation Successful");
+//            response.setData(reservationRepository.findById(obj.getId()));
+            return response;
+        } else {
+            response.setCode(404);
+            response.setMsg("Not Found");
+            return response;
+        }
+
+    }
+
+
+
+    @Override
+    public Response deleteReservation(int status, int id) {
+        Response response = new Response();
+        Optional<ReservationEntity> reservation = reservationRepository.findById(id);
+        if (reservation.isPresent()) {
+            ReservationEntity obj = reservation.get();
+            obj.setStatus(status);
+            reservationRepository.save(obj);
+            response.setCode(200);
+            response.setMsg("Delete Reservation Successful");
+//            response.setData(reservationRepository.findById(obj.getId()));
+            return response;
+        } else {
+            response.setCode(404);
+            response.setMsg("Not Found");
+            return response;
+        }
     }
 }

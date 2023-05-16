@@ -45,9 +45,19 @@ public class ScheduleManagerService implements ScheduleManager {
 
         Response response = new Response();
         response.setCode(200);
-        response.setData(scheduleRepository.findByIdAndEmpCode(id,empID));
+        response.setData(scheduleRepository.findByIdAndEmpCode(id, empID));
         response.setMsg("Get user's Reservation");
         return response;
+    }
+
+    @Override
+    public Response getUserFilterScheduleData(String empID, int status) {
+        Response response = new Response();
+        response.setCode(200);
+        response.setData(scheduleRepository.findByStatusAndEmpCode(status, empID));
+        response.setMsg("Get user's filter Reservation Data");
+        return response;
+
     }
 
     @Override

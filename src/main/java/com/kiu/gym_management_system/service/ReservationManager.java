@@ -9,9 +9,14 @@ public interface ReservationManager {
 
     Response getAllUserReservation(String empID);
 
+    Response getUserReservation(String empID, int id);
+
     Response createReservation(String empID, ReservationModel reservationModel);
 
     Response editReservation(int id, ReservationModel reservationModel);
+    Response editStatusReservation(int status, int id);
 
-    Response deleteReservation(int id);
+    Response getUserFilterReservationData(String empID, int status);
+
+    Response deleteReservation(int status,int id);
 }
