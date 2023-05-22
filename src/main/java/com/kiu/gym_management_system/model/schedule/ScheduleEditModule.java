@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ScheduleEditModule {
     @JsonProperty("status")
-    private Integer status;
+    private int status;
 }

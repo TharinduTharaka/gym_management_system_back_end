@@ -15,15 +15,15 @@ import java.util.Date;
 public class ReservationModel {
 
     @JsonProperty("id")
-    private Integer id;
+    private int id;
     @JsonProperty("emp_code")
     private String empCode;
     @JsonProperty("title")
     private String title;
     @JsonProperty("reservation_type")
-    private Integer reservationType;
+    private int reservationType;
     @JsonProperty("status")
-    private Integer status;
+    private int status;
     @JsonProperty("start")
     private String start;
     @JsonProperty("end")

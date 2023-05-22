@@ -12,15 +12,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ScheduleModel {
     @JsonProperty("id")
-    private Integer id;
+    private int id;
     @JsonProperty("emp_code")
     private String empCode;
     @JsonProperty("title")
     private String title;
     @JsonProperty("week_day")
-    private Integer weekDay;
+    private int weekDay;
     @JsonProperty("status")
-    private Integer status;
+    private int status;
     @JsonProperty("start_date")
     private String startDate;
     @JsonProperty("end_date")

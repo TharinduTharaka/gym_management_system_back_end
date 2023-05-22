@@ -24,9 +24,53 @@ public class ReservationManagerService implements ReservationManager {
 
     @Override
     public Response getAllReservation() {
+        List<ReservationEntity> reservationEntityList = reservationRepository.findAll();
+        List<ReservationModel> reservationModelList = new ArrayList<>();
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+        for (ReservationEntity reservation : reservationEntityList) {
+//            String strStartDate = dateFormat.format(reservation.getStartDate());
+//            String strEndDate = dateFormat.format(reservation.getStartDate());
+            ReservationModel reservationModel = new ReservationModel();
+
+            reservationModel.setId(reservation.getId());
+            reservationModel.setTitle(reservation.getTitle());
+            reservationModel.setStart(reservation.getStartDate());
+            reservationModel.setEnd(reservation.getEndDate());
+            reservationModel.setDescription(reservation.getDescription());
+            reservationModel.setEmpCode(reservation.getEmpCode());
+            reservationModel.setStatus(reservation.getStatus());
+            reservationModel.setReservationType(reservation.getReservationType());
+
+
+            ExtendedReservationForGetReservation extendedReservationForGetReservation = new ExtendedReservationForGetReservation();
+            switch (reservation.getReservationType()) {
+                case 0:
+                    extendedReservationForGetReservation.setCalendar("Cardio");
+                    break;
+                case 1:
+                    extendedReservationForGetReservation.setCalendar("Business");
+                    break;
+                case 2:
+                    extendedReservationForGetReservation.setCalendar("Family");
+                    break;
+                case 3:
+                    extendedReservationForGetReservation.setCalendar("Holiday");
+                    break;
+                case 4:
+                    extendedReservationForGetReservation.setCalendar("ETC");
+                    break;
+            }
+
+//            extendedReservationForGetReservation.setDescription(reservationModel.getDescription());
+            reservationModel.setExtendedProps(extendedReservationForGetReservation);
+            reservationModelList.add(reservationModel);
+
+        }
+
         Response response = new Response();
         response.setCode(200);
-        response.setData(reservationRepository.findAll());
+        response.setData(reservationModelList);
         response.setMsg("Get All Reservations");
         return response;
     }
@@ -37,17 +81,17 @@ public class ReservationManagerService implements ReservationManager {
 
         List<ReservationEntity> reservationEntityList = reservationRepository.findByEmpCode(empID);
         List<ReservationModel> reservationModelList = new ArrayList<>();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
         for (ReservationEntity reservation : reservationEntityList) {
-            String strStartDate = dateFormat.format(reservation.getStartDate());
-            String strEndDate = dateFormat.format(reservation.getStartDate());
+//            String strStartDate = dateFormat.format(reservation.getStartDate());
+//            String strEndDate = dateFormat.format(reservation.getStartDate());
             ReservationModel reservationModel = new ReservationModel();
 
             reservationModel.setId(reservation.getId());
             reservationModel.setTitle(reservation.getTitle());
-            reservationModel.setStart(strStartDate);
-            reservationModel.setEnd(strEndDate);
+            reservationModel.setStart(reservation.getStartDate());
+            reservationModel.setEnd(reservation.getEndDate());
             reservationModel.setDescription(reservation.getDescription());
             reservationModel.setEmpCode(reservation.getEmpCode());
             reservationModel.setStatus(reservation.getStatus());
@@ -107,7 +151,7 @@ public class ReservationManagerService implements ReservationManager {
 //        }
         Response response = new Response();
         response.setCode(200);
-        response.setData(reservationRepository.findByStatusAndEmpCode(status,empID));
+        response.setData(reservationRepository.findByStatusAndEmpCode(status, empID));
         response.setMsg("Get user's filter Reservation Data");
         return response;
 
@@ -126,25 +170,25 @@ public class ReservationManagerService implements ReservationManager {
     @Override
     public Response createReservation(String empID, ReservationModel reservationModel) {
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-
-        Date startDate = new Date();
-        Date endDate = new Date();
-
-        try {
-            startDate = formatter.parse(reservationModel.getStart());
-            endDate = formatter.parse(reservationModel.getEnd());
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+//
+//        Date startDate = new Date();
+//        Date endDate = new Date();
+//
+//        try {
+//            startDate = formatter.parse(reservationModel.getStart());
+//            endDate = formatter.parse(reservationModel.getEnd());
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
 
         ReservationEntity reservationEntity = new ReservationEntity();
         reservationEntity.setEmpCode(empID);
         reservationEntity.setTitle(reservationModel.getTitle());
         reservationEntity.setReservationType(reservationModel.getReservationType());
         reservationEntity.setStatus(reservationModel.getStatus());
-        reservationEntity.setStartDate(startDate);
-        reservationEntity.setEndDate(endDate);
+        reservationEntity.setStartDate(reservationModel.getStart());
+        reservationEntity.setEndDate(reservationModel.getEnd());
         reservationEntity.setUserName(reservationModel.getUserName());
         reservationEntity.setDescription(reservationModel.getDescription());
 
@@ -166,25 +210,25 @@ public class ReservationManagerService implements ReservationManager {
         Response response = new Response();
         Optional<ReservationEntity> reservation = reservationRepository.findById(id);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-
-        Date startDate = new Date();
-        Date endDate = new Date();
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+//
+//        Date startDate = new Date();
+//        Date endDate = new Date();
 
 
         if (reservation.isPresent()) {
             ReservationEntity obj = reservation.get();
-            try {
-                startDate = formatter.parse(reservationModel.getStart());
-                endDate = formatter.parse(reservationModel.getEnd());
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
+//            try {
+//                startDate = formatter.parse(reservationModel.getStart());
+//                endDate = formatter.parse(reservationModel.getEnd());
+//            } catch (ParseException e) {
+//                throw new RuntimeException(e);
+//            }
             obj.setTitle(reservationModel.getTitle());
             obj.setReservationType(reservationModel.getReservationType());
             obj.setStatus(reservationModel.getStatus());
-            obj.setStartDate(startDate);
-            obj.setEndDate(endDate);
+            obj.setStartDate(reservationModel.getStart());
+            obj.setEndDate(reservationModel.getEnd());
             obj.setUserName(reservationModel.getUserName());
             obj.setDescription(reservationModel.getDescription());
 
@@ -228,7 +272,6 @@ public class ReservationManagerService implements ReservationManager {
         }
 
     }
-
 
 
     @Override

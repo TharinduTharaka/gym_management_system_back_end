@@ -31,7 +31,7 @@ public class AttendanceManagerService implements AttendanceManager {
         Response response = new Response();
         response.setCode(200);
         response.setMsg("Get All Attendance");
-        response.setData(iclockTransactionRepository.findAll());
+        response.setData(attendanceRepository.findAll());
         return response;
     }
 

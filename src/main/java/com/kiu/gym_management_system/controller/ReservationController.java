@@ -16,8 +16,8 @@ public class ReservationController {
     @Autowired
     private ReservationManagerService reservationManagerService;
 
-    @GetMapping("/get-all-reservation")
-    public Response getAllReservation() {
+    @GetMapping("/get-all-reservation/{config}")
+    public Response getAllReservation(@PathVariable String config) {
         return reservationManagerService.getAllReservation();
     }
 
@@ -39,12 +39,14 @@ public class ReservationController {
     }
 
     @PostMapping("/create-reservation/{emp_id}")
-    public Response createReservation(@PathVariable String emp_id, @RequestBody ReservationModel reservationModel) {
+    public Response createReservation(@PathVariable String emp_id,
+                                      @RequestBody ReservationModel reservationModel) {
         return reservationManagerService.createReservation(emp_id, reservationModel);
     }
 
     @PutMapping("/update-reservation/{id}")
-    public Response editReservation(@PathVariable int id, @RequestBody ReservationModel reservationModel) {
+    public Response editReservation(@PathVariable int id,
+                                    @RequestBody ReservationModel reservationModel) {
         return reservationManagerService.editReservation(id, reservationModel);
     }
 

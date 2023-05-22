@@ -34,9 +34,9 @@ public class ReservationEntity {
     @Column(name = "status")
     private int status;
     @Column(name = "start_date")
-    private Date startDate;
+    private String startDate;
     @Column(name = "end_date")
-    private Date endDate;
+    private String endDate;
     @Column(name = "user_name")
     private String userName;
     @Column(name = "description")
