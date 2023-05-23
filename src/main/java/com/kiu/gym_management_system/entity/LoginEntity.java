@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user")
-public class UserEntity {
+@Table(name = "login")
+public class LoginEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
@@ -28,6 +28,9 @@ public class UserEntity {
 
     @Column(name = "role")
     private String role;
+
+//    @Column(name = "ability")
+//    private String ability;
 
 //    @Enumerated(EnumType.STRING)
 //    private Role role;

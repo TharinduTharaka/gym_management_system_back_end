@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/gym")
+@RequestMapping("/api/gym/login")
 @CrossOrigin(origins = "*")
 public class LoginController {
 
 
     @Autowired
     LoginManagerService loginManagerService;
-    @GetMapping("/login")
+    @GetMapping("/get-login-details")
     public Response getUserProfileDetails(@RequestParam(value = "email") String email,
                                           @RequestParam(value = "password") String password) {
         return loginManagerService.getUserLoginDetails(email,password);
