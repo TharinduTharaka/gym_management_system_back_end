@@ -32,6 +32,11 @@ public class ReservationController {
         return reservationManagerService.getUserReservation(emp_id, id);
     }
 
+    @GetMapping("/get-admin-reservation-data/{id}")
+    public Response getAdminReservationData(@PathVariable int id) {
+        return reservationManagerService.getAdminReservationData(id);
+    }
+
     @GetMapping("/get-user-filter-reservation/{emp_id}")
     public Response getUserFilterReservationData(@PathVariable String emp_id,
                                              @RequestParam(value = "status") int status) {

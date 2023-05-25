@@ -168,6 +168,16 @@ public class ReservationManagerService implements ReservationManager {
     }
 
     @Override
+    public Response getAdminReservationData(int id) {
+
+        Response response = new Response();
+        response.setCode(200);
+        response.setData(reservationRepository.findById(id));
+        response.setMsg("Get Reservation Data");
+        return response;
+    }
+
+    @Override
     public Response createReservation(String empID, ReservationModel reservationModel) {
 
 //        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
