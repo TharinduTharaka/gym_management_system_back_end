@@ -26,7 +26,7 @@ public class ScheduleManagerService implements ScheduleManager {
         Response response = new Response();
         response.setCode(200);
         response.setData(scheduleRepository.findAll());
-        response.setMsg("Get All Reservations");
+        response.setMsg("Get All Schedule");
         return response;
     }
 
@@ -37,7 +37,7 @@ public class ScheduleManagerService implements ScheduleManager {
         Response response = new Response();
         response.setCode(200);
         response.setData(scheduleRepository.findByEmpCode(empID));
-        response.setMsg("Get user's Reservations");
+        response.setMsg("Get user's All Schedule");
         return response;
     }
 
@@ -46,7 +46,15 @@ public class ScheduleManagerService implements ScheduleManager {
         Response response = new Response();
         response.setCode(200);
         response.setData(scheduleRepository.findByIdAndEmpCode(id, empID));
-        response.setMsg("Get user's Reservation");
+        response.setMsg("Get user's Schedule");
+        return response;
+    }
+
+    public Response getSchedule(int id) {
+        Response response = new Response();
+        response.setCode(200);
+        response.setData(scheduleRepository.findById(id));
+        response.setMsg("Get admin Schedule");
         return response;
     }
 
@@ -55,7 +63,7 @@ public class ScheduleManagerService implements ScheduleManager {
         Response response = new Response();
         response.setCode(200);
         response.setData(scheduleRepository.findByStatusAndEmpCode(status, empID));
-        response.setMsg("Get user's filter Reservation Data");
+        response.setMsg("Get user's filter Schedule Data");
         return response;
 
     }
@@ -65,23 +73,23 @@ public class ScheduleManagerService implements ScheduleManager {
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
-        Date startDate = new Date();
-        Date endDate = new Date();
-
-        try {
-            startDate = formatter.parse(scheduleModel.getStartDate());
-            endDate = formatter.parse(scheduleModel.getEndDate());
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+//        Date startDate = new Date();
+//        Date endDate = new Date();
+//
+//        try {
+//            startDate = formatter.parse(scheduleModel.getStartDate());
+//            endDate = formatter.parse(scheduleModel.getEndDate());
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
 
         ScheduleEntity scheduleEntity = new ScheduleEntity();
         scheduleEntity.setEmpCode(empID);
         scheduleEntity.setTitle(scheduleModel.getTitle());
         scheduleEntity.setWeekDay(scheduleModel.getWeekDay());
         scheduleEntity.setStatus(scheduleModel.getStatus());
-        scheduleEntity.setStartDate(startDate);
-        scheduleEntity.setEndDate(endDate);
+        scheduleEntity.setStartDate(scheduleModel.getStartDate());
+        scheduleEntity.setEndDate(scheduleModel.getEndDate());
         scheduleEntity.setDescription(scheduleModel.getDescription());
         scheduleEntity.setInstructorName(scheduleModel.getInstructorName());
 
@@ -98,7 +106,7 @@ public class ScheduleManagerService implements ScheduleManager {
     }
 
     @Override
-    public Response editSchedule(int status, int id) {
+    public Response editScheduleStatus(int status, int id) {
 
         Response response = new Response();
         Optional<ScheduleEntity> scheduleEntityOptional = scheduleRepository.findById(id);
@@ -120,10 +128,53 @@ public class ScheduleManagerService implements ScheduleManager {
     }
 
     @Override
-    public Response deleteSchedule(int status, int id) {
+    public Response editSchedule(ScheduleModel scheduleModel, int id) {
+
         Response response = new Response();
-        response.setCode(200);
-        response.setMsg("Delete Reservation Successful");
-        return response;
+        Optional<ScheduleEntity> scheduleEntityOptional = scheduleRepository.findById(id);
+
+        if (scheduleEntityOptional.isPresent()) {
+            ScheduleEntity obj = scheduleEntityOptional.get();
+            obj.setTitle(scheduleModel.getTitle());
+            obj.setEmpCode(scheduleModel.getEmpCode());
+            obj.setDescription(scheduleModel.getDescription());
+            obj.setWeekDay(scheduleModel.getWeekDay());
+            obj.setStartDate(scheduleModel.getStartDate());
+            obj.setEndDate(scheduleModel.getEndDate());
+            obj.setStatus(scheduleModel.getStatus());
+            obj.setInstructorName(scheduleModel.getInstructorName());
+            scheduleRepository.save(obj);
+            response.setCode(200);
+            response.setMsg("Update Schedule Successful");
+//            response.setData(scheduleRepository.findById(obj.getId()));
+            return response;
+        } else {
+            response.setCode(404);
+            response.setMsg("Not Found");
+            return response;
+        }
+
+    }
+
+    @Override
+    public Response deleteSchedule(int status, int id) {
+
+        Response response = new Response();
+        Optional<ScheduleEntity> scheduleEntityOptional = scheduleRepository.findById(id);
+
+        if (scheduleEntityOptional.isPresent()) {
+            ScheduleEntity obj = scheduleEntityOptional.get();
+            obj.setStatus(status);
+            scheduleRepository.save(obj);
+            response.setCode(200);
+            response.setMsg("Delete Reservation Successful");
+//            response.setData(scheduleRepository.findById(obj.getId()));
+            return response;
+        } else {
+            response.setCode(404);
+            response.setMsg("Not Found");
+            return response;
+        }
+
     }
 }

@@ -21,6 +21,11 @@ public class ScheduleController {
         return scheduleManagerService.getAllSchedule();
     }
 
+    @GetMapping("/get-admin-schedule/{id}")
+    public Response getSchedule(@PathVariable int id) {
+        return scheduleManagerService.getSchedule(id);
+    }
+
     @GetMapping("/get-user-all-schedule/{emp_id}")
     public Response getUserAllSchedule(@PathVariable String emp_id) {
         return scheduleManagerService.getUserAllSchedule(emp_id);
@@ -44,10 +49,15 @@ public class ScheduleController {
         return scheduleManagerService.createSchedule(emp_id, scheduleModel);
     }
 
-    @PutMapping("/update-schedule/{id}")
-    public Response editSchedule(@PathVariable int id,
+    @PutMapping("/update-schedule-status/{id}")
+    public Response editScheduleStatus(@PathVariable int id,
                                  @RequestParam(value = "status") int status) {
-        return scheduleManagerService.editSchedule(status, id);
+        return scheduleManagerService.editScheduleStatus(status, id);
+    }
+    @PutMapping("/admin/update-schedule/{id}")
+    public Response editSchedule(@PathVariable int id,
+                                 @RequestBody ScheduleModel scheduleModel) {
+        return scheduleManagerService.editSchedule(scheduleModel, id);
     }
 
 

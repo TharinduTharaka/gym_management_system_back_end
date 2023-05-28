@@ -23,9 +23,9 @@ public class ScheduleEntity {
     @Column(name = "title")
     private String title;
     @Column(name = "start_date")
-    private Date startDate;
+    private String startDate;
     @Column(name = "end_date")
-    private Date endDate;
+    private String endDate;
     @Column(name = "week_day")
     private int weekDay;
     @Column(name = "status")
