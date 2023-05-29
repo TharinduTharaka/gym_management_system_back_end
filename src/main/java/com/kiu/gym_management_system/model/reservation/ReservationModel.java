@@ -30,6 +30,8 @@ public class ReservationModel {
     private String end;
     @JsonProperty("user_name")
     private String userName;
+    @JsonProperty("instructor_id")
+    private int instructorId;
     @JsonProperty("description")
     private String description;
     @JsonProperty("extendedProps")

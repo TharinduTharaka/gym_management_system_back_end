@@ -67,6 +67,15 @@ public class ScheduleManagerService implements ScheduleManager {
         return response;
 
     }
+    @Override
+    public Response getAdminFilterScheduleData(int status) {
+        Response response = new Response();
+        response.setCode(200);
+        response.setData(scheduleRepository.findByStatus(status));
+        response.setMsg("Get admin filter Schedule Data");
+        return response;
+
+    }
 
     @Override
     public Response createSchedule(String empID, ScheduleModel scheduleModel) {

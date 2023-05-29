@@ -39,6 +39,9 @@ public class ReservationEntity {
     private String endDate;
     @Column(name = "user_name")
     private String userName;
+
+    @Column(name = "instructor_id")
+    private int instructorId;
     @Column(name = "description")
     private String description;
 

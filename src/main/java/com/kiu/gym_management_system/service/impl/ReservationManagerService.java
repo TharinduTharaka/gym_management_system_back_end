@@ -95,6 +95,7 @@ public class ReservationManagerService implements ReservationManager {
             reservationModel.setDescription(reservation.getDescription());
             reservationModel.setEmpCode(reservation.getEmpCode());
             reservationModel.setStatus(reservation.getStatus());
+            reservationModel.setInstructorId(reservation.getInstructorId());
             reservationModel.setReservationType(reservation.getReservationType());
 
 
@@ -158,12 +159,78 @@ public class ReservationManagerService implements ReservationManager {
     }
 
     @Override
+    public Response getAdminFilterReservationData(int id, int status) {
+
+        Response response = new Response();
+        response.setCode(200);
+        response.setData(reservationRepository.findByStatusAndInstructorId(status, id));
+        response.setMsg("Get admin filter Reservation Data");
+        return response;
+
+    }
+
+    @Override
     public Response getUserReservation(String empID, int id) {
 
         Response response = new Response();
         response.setCode(200);
         response.setData(reservationRepository.findByIdAndEmpCode(id, empID));
         response.setMsg("Get user's Reservation Data");
+        return response;
+    }
+
+    @Override
+    public Response getAllAdminReservationData(int admin_id) {
+
+        List<ReservationEntity> reservationEntityList = reservationRepository.findByInstructorId(admin_id);
+        List<ReservationModel> reservationModelList = new ArrayList<>();
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+        for (ReservationEntity reservation : reservationEntityList) {
+//            String strStartDate = dateFormat.format(reservation.getStartDate());
+//            String strEndDate = dateFormat.format(reservation.getStartDate());
+            ReservationModel reservationModel = new ReservationModel();
+
+            reservationModel.setId(reservation.getId());
+            reservationModel.setTitle(reservation.getTitle());
+            reservationModel.setStart(reservation.getStartDate());
+            reservationModel.setEnd(reservation.getEndDate());
+            reservationModel.setDescription(reservation.getDescription());
+            reservationModel.setEmpCode(reservation.getEmpCode());
+            reservationModel.setStatus(reservation.getStatus());
+            reservationModel.setInstructorId(reservation.getInstructorId());
+            reservationModel.setReservationType(reservation.getReservationType());
+
+
+            ExtendedReservationForGetReservation extendedReservationForGetReservation = new ExtendedReservationForGetReservation();
+            switch (reservation.getReservationType()) {
+                case 0:
+                    extendedReservationForGetReservation.setCalendar("Cardio");
+                    break;
+                case 1:
+                    extendedReservationForGetReservation.setCalendar("Business");
+                    break;
+                case 2:
+                    extendedReservationForGetReservation.setCalendar("Family");
+                    break;
+                case 3:
+                    extendedReservationForGetReservation.setCalendar("Holiday");
+                    break;
+                case 4:
+                    extendedReservationForGetReservation.setCalendar("ETC");
+                    break;
+            }
+
+//            extendedReservationForGetReservation.setDescription(reservationModel.getDescription());
+            reservationModel.setExtendedProps(extendedReservationForGetReservation);
+            reservationModelList.add(reservationModel);
+
+        }
+
+        Response response = new Response();
+        response.setCode(200);
+        response.setData(reservationModelList);
+        response.setMsg("Get Admin Reservation Data");
         return response;
     }
 
@@ -199,7 +266,7 @@ public class ReservationManagerService implements ReservationManager {
         reservationEntity.setStatus(reservationModel.getStatus());
         reservationEntity.setStartDate(reservationModel.getStart());
         reservationEntity.setEndDate(reservationModel.getEnd());
-        reservationEntity.setUserName(reservationModel.getUserName());
+        reservationEntity.setInstructorId(reservationModel.getInstructorId());
         reservationEntity.setDescription(reservationModel.getDescription());
 
         List<ReservationEntity> reservationEntityList = new ArrayList<>();

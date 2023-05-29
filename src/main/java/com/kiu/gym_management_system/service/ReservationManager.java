@@ -10,7 +10,11 @@ public interface ReservationManager {
     Response getAllUserReservation(String empID);
 
     Response getUserReservation(String empID, int id);
+
+    Response getAdminFilterReservationData(int id, int status);
     Response getAdminReservationData(int id);
+
+    Response getAllAdminReservationData(int id);
 
     Response createReservation(String empID, ReservationModel reservationModel);
 

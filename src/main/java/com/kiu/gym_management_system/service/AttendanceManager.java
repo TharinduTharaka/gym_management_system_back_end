@@ -6,5 +6,7 @@ public interface AttendanceManager {
 
 
     Response getAllAttendance();
-    Response getUserAttendance(String empID);
+    Response getUserAttendance(String empID, String role);
+
+    Response getAllUserAttendance(String role);
 }

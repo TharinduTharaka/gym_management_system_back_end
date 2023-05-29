@@ -13,4 +13,8 @@ import java.util.List;
 public interface AttendanceRepository extends JpaRepository<AttendanceEntity, Integer> {
     List<AttendanceEntity> findByEmpCode(@Param("emp_code") String empCode);
 
+    List<AttendanceEntity> findByEmpCodeAndRole(@Param("emp_code") String empCode, @Param("role") String role);
+
+    List<AttendanceEntity> findByRole(@Param("role") String role);
+
 }

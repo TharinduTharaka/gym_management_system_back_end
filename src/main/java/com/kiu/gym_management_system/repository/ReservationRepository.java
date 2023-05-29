@@ -11,7 +11,14 @@ import java.util.Optional;
 @Repository
 public interface ReservationRepository extends JpaRepository<ReservationEntity, Integer> {
     List<ReservationEntity> findByEmpCode(@Param("emp_code") String empCode);
+
     Optional<ReservationEntity> findById(@Param("id") Integer id);
-    List<ReservationEntity> findByIdAndEmpCode(int id, String empCode);
-    List<ReservationEntity>findByStatusAndEmpCode(@Param("status") Integer status, @Param("emp_code") String empCode);
+
+    List<ReservationEntity> findByIdAndEmpCode(@Param("id") Integer id, @Param("emp_code") String empCode);
+
+    List<ReservationEntity> findByStatusAndEmpCode(@Param("status") Integer status, @Param("emp_code") String empCode);
+
+    List<ReservationEntity> findByStatusAndInstructorId(@Param("status") Integer status, @Param("instructor_id") Integer instructor_id);
+
+    List<ReservationEntity> findByInstructorId(@Param("instructor_id") Integer instructor_id);
 }

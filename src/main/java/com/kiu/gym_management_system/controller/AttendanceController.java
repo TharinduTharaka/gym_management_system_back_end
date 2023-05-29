@@ -23,10 +23,15 @@ public class AttendanceController {
         return attendanceManagerService.getAllAttendance();
     }
 
+    @GetMapping("/get-all-user-attendance/{role}")
+    public Response getAllUserAttendance(@PathVariable String role) {
+        return attendanceManagerService.getAllUserAttendance(role);
+    }
 
-    @GetMapping("/get-user-attendance/{id}")
-    public Response getAttendanceByID(@PathVariable String id) throws ParseException {
-        return attendanceManagerService.getUserAttendance(id);
+
+    @GetMapping("/get-user-attendance/{id}/{role}")
+    public Response getUserAttendance(@PathVariable String id, @PathVariable String role) throws ParseException {
+        return attendanceManagerService.getUserAttendance(id, role);
     }
 
 

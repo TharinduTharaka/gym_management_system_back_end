@@ -11,5 +11,8 @@ public interface ScheduleRepository extends JpaRepository<ScheduleEntity, Intege
     List<ScheduleEntity> findByEmpCode(@Param("emp_code") String empCode);
 
     List<ScheduleEntity> findByIdAndEmpCode(int id, String empCode);
+
     List<ScheduleEntity>findByStatusAndEmpCode(@Param("status") Integer status, @Param("emp_code") String empCode);
+
+    List<ScheduleEntity>findByStatus(@Param("status") Integer status);
 }

@@ -36,9 +36,37 @@ public class AttendanceManagerService implements AttendanceManager {
     }
 
     @Override
-    public Response getUserAttendance(String empID) {
+    public Response getAllUserAttendance(String role) {
 
-        List<AttendanceEntity> attendanceEntities = attendanceRepository.findByEmpCode(empID);
+//        List<AttendanceEntity> attendanceEntities = attendanceRepository.findByRole(role);
+//
+//        List<AttendanceEntity> attendanceEntitiesList = new ArrayList<>();
+//
+//        for (AttendanceEntity attendance : attendanceEntities) {
+//
+//            AttendanceEntity attendanceEntity = new AttendanceEntity();
+//            attendanceEntity.setId(attendance.getId());
+//            attendanceEntity.setEmpCode(attendance.getEmpCode());
+//            attendanceEntity.setEmpName(attendance.getEmpName());
+//            attendanceEntity.setDate(attendance.getDate());
+//            attendanceEntity.setInTime(attendance.getInTime());
+//            attendanceEntity.setOutTime(attendance.getOutTime());
+//            attendanceEntity.setWorkDuration(attendance.getWorkDuration());
+//            attendanceEntitiesList.add(attendanceEntity);
+//
+//        }
+
+        Response response = new Response();
+        response.setCode(200);
+        response.setMsg("Get All User  Attendance");
+        response.setData(attendanceRepository.findByRole(role));
+        return response;
+    }
+
+    @Override
+    public Response getUserAttendance(String empID, String role) {
+
+        List<AttendanceEntity> attendanceEntities = attendanceRepository.findByEmpCodeAndRole(empID, role);
 
         List<AttendanceEntity> attendanceEntitiesList = new ArrayList<>();
         for (AttendanceEntity attendance : attendanceEntities) {
@@ -56,7 +84,7 @@ public class AttendanceManagerService implements AttendanceManager {
 
         Response response = new Response();
         response.setCode(200);
-        response.setMsg("Get All User's Attendance");
+        response.setMsg("Get All  Attendance");
         response.setData(attendanceEntitiesList);
         return response;
     }
