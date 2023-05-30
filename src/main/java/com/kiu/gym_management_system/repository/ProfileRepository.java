@@ -7,5 +7,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ProfileRepository extends JpaRepository<MembersEntity, Integer> {
-    List<MembersEntity> findById(@Param("id") int id);
+
+    List<MembersEntity> findByStatus(@Param("status") int status);
+
+    List<MembersEntity> findByIdAndStatus(@Param("id") int id,@Param("status") int status);
 }

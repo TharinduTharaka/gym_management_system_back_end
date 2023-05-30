@@ -37,7 +37,7 @@ public class ReservationController {
         return reservationManagerService.getAllAdminReservationData(id);
     }
 
-    @GetMapping("/get-admin-reservation/{id}")
+    @GetMapping("/get-admin-reservation-data/{id}")
     public Response getAdminReservationData(@PathVariable int id) {
         return reservationManagerService.getAdminReservationData(id);
     }

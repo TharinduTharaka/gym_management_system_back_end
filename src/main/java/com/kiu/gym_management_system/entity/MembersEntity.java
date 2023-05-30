@@ -19,6 +19,9 @@ public class MembersEntity {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "status")
+    private int status;
     @Column(name = "phone_home")
     private String phoneHome;
     @Column(name = "phone_personal")
