@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -60,4 +62,21 @@ public class MembersEntity {
     private String hospitalLocation;
     @Column(name = "payment_file")
     private String paymentFile;
+
+    @Column(name = "created_by")
+    private String createBy;
+
+    @Column(name = "deleted_by")
+    private String deletedBy;
+
+    @Column(name = "updated_by")
+    private String updatedBy;
+    @Column(name = "created_at")
+    private Date createDate;
+
+    @Column(name = "deleted_at")
+    private Date deletedDate;
+
+    @Column(name = "updated_at")
+    private Date updatedDate;
 }

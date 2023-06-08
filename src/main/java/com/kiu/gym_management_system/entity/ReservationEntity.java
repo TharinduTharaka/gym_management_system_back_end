@@ -45,4 +45,21 @@ public class ReservationEntity {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "created_by")
+    private String createBy;
+
+    @Column(name = "deleted_by")
+    private String deletedBy;
+
+    @Column(name = "updated_by")
+    private String updatedBy;
+    @Column(name = "created_at")
+    private Date createDate;
+
+    @Column(name = "deleted_at")
+    private Date deletedDate;
+
+    @Column(name = "updated_at")
+    private Date updatedDate;
+
 }

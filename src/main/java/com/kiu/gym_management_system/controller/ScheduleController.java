@@ -42,6 +42,7 @@ public class ScheduleController {
                                                  @RequestParam(value = "status") int status) {
         return scheduleManagerService.getUserFilterScheduleData(emp_id, status);
     }
+
     @GetMapping("/get-admin-filter-schedule")
     public Response getUserFilterReservationData(@RequestParam(value = "status") int status) {
         return scheduleManagerService.getAdminFilterScheduleData(status);
@@ -55,9 +56,10 @@ public class ScheduleController {
 
     @PutMapping("/update-schedule-status/{id}")
     public Response editScheduleStatus(@PathVariable int id,
-                                 @RequestParam(value = "status") int status) {
+                                       @RequestParam(value = "status") int status) {
         return scheduleManagerService.editScheduleStatus(status, id);
     }
+
     @PutMapping("/admin/update-schedule/{id}")
     public Response editSchedule(@PathVariable int id,
                                  @RequestBody ScheduleModel scheduleModel) {
@@ -65,9 +67,10 @@ public class ScheduleController {
     }
 
 
-    @PutMapping("/delete-schedule/{id}")
+    @PutMapping("/delete-schedule/{id}/{emp_id}")
     public Response deleteSchedule(@PathVariable int id,
+                                   @PathVariable String emp_id,
                                    @RequestParam(value = "status") int status) {
-        return scheduleManagerService.deleteSchedule(status, id);
+        return scheduleManagerService.deleteSchedule(status, id, emp_id);
     }
 }

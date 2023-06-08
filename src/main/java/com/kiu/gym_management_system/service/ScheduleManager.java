@@ -14,5 +14,5 @@ public interface ScheduleManager {
     Response createSchedule(String empID, ScheduleModel scheduleModel);
     Response editSchedule(ScheduleModel scheduleModel, int id);
     Response editScheduleStatus(int status, int id);
-    Response deleteSchedule(int status, int id);
+    Response deleteSchedule(int status, int id,String empID);
 }

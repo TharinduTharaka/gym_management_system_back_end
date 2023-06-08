@@ -11,4 +11,5 @@ public interface LoginRepository extends CrudRepository <LoginEntity, Integer> {
  List<LoginEntity> findByEmailAndPassword(@Param("email") String email, @Param("password") String password);
  List<LoginEntity> findByEmail(@Param("email") String email);
  List<LoginEntity> findByRole(@Param("role") String role);
+// List<LoginEntity> findById(@Param("id") int id);
 }
