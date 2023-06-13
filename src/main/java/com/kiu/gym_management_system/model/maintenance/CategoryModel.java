@@ -15,6 +15,9 @@ public class CategoryModel {
 
     @JsonProperty("id")
     private int id;
-    @JsonProperty("title")
-    private String title;
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("description")
+    private String description;
 }

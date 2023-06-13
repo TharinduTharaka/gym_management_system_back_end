@@ -1,5 +1,6 @@
 package com.kiu.gym_management_system.service;
 
+import com.kiu.gym_management_system.model.maintenance.CategoryModel;
 import com.kiu.gym_management_system.model.maintenance.MaintenanceModel;
 import com.kiu.gym_management_system.model.schedule.ScheduleModel;
 import com.kiu.gym_management_system.response.Response;
@@ -17,5 +18,9 @@ public interface MaintenanceManager {
     Response editMaintenance(String empID,MaintenanceModel maintenanceModel, int id);
 
     Response deleteMaintenance(int status, int id,String empID);
+
+    Response createMaintenanceCategory(String empID, CategoryModel categoryModel);
+
+
 
 }
