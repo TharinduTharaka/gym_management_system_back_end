@@ -78,16 +78,6 @@ public class MaintenanceManagerService implements MaintenanceManager {
         int employee_ID = Integer.parseInt(empID);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
-//        Date startDate = new Date();
-//        Date endDate = new Date();
-//
-//        try {
-//            startDate = formatter.parse(scheduleModel.getStartDate());
-//            endDate = formatter.parse(scheduleModel.getEndDate());
-//        } catch (ParseException e) {
-//            throw new RuntimeException(e);
-//        }
-
         MaintenanceEntity maintenanceEntity = new MaintenanceEntity();
 
         maintenanceEntity.setTitle(maintenanceModel.getTitle());
