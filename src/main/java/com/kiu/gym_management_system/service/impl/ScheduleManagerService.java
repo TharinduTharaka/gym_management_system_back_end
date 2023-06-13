@@ -226,9 +226,6 @@ public class ScheduleManagerService implements ScheduleManager {
                         }else {
                             sendEmailScheduleDeleteByUser(toEmail, title, loginEntity.getFullName());
                         }
-
-
-
                     }
                 }.start();
             }
