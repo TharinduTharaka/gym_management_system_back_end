@@ -23,7 +23,7 @@ public class MaintenanceModel {
     private int status;
     @JsonProperty("category")
     private int category;
-    @JsonProperty("task_id")
+    @JsonProperty("taskID")
     private int taskID;
     @JsonProperty("taskTitle")
     private String taskTitle;
