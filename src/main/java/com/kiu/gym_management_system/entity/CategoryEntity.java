@@ -22,6 +22,11 @@ public class CategoryEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "count")
+    private int count;
+
+    @Column(name = "frequency")
+    private String frequency;
     @Column(name = "status")
     private int status;
 

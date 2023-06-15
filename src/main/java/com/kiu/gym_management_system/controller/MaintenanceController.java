@@ -46,7 +46,7 @@ public class MaintenanceController {
 
     @PostMapping("/create-maintenance-category/{emp_id}")
     public Response createMaintenanceCategory(@PathVariable String emp_id,
-                                      @RequestBody CategoryModel categoryModel) {
+                                              @RequestBody CategoryModel categoryModel) {
         return maintenanceManagerService.createMaintenanceCategory(emp_id, categoryModel);
     }
 
@@ -54,6 +54,13 @@ public class MaintenanceController {
     public Response editMaintenance(@PathVariable String emp_id, @PathVariable int id,
                                     @RequestBody MaintenanceModel maintenanceModel) {
         return maintenanceManagerService.editMaintenance(emp_id, maintenanceModel, id);
+    }
+
+    @PutMapping("/complete-maintenance/{id}/{emp_id}")
+    public Response completeMaintenance(@PathVariable int id,
+                                      @PathVariable String emp_id,
+                                      @RequestParam(value = "status") int status) {
+        return maintenanceManagerService.completeMaintenance(status, id, emp_id);
     }
 
     @PutMapping("/delete-maintenance/{id}/{emp_id}")

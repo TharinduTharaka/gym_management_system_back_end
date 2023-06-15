@@ -19,8 +19,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.zip.DataFormatException;
 
 @Service
 public class MaintenanceManagerService implements MaintenanceManager {
@@ -74,6 +78,109 @@ public class MaintenanceManagerService implements MaintenanceManager {
 
     }
 
+
+    @Override
+    public Response createMaintenanceCategory(String empID, CategoryModel categoryModel) {
+
+        int employee_ID = Integer.parseInt(empID);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+        CategoryEntity categoryEntity = new CategoryEntity();
+
+        categoryEntity.setName(categoryModel.getName());
+        categoryEntity.setCount(categoryModel.getCount());
+        categoryEntity.setFrequency(categoryModel.getFrequency());
+        categoryEntity.setStatus(1);
+        categoryEntity.setDescription(categoryModel.getDescription());
+        categoryEntity.setCreateBy(empID);
+        categoryEntity.setCreateDate(new Date());
+
+        List<CategoryEntity> categoryEntityArrayList = new ArrayList<>();
+
+        categoryEntityArrayList.add(categoryEntity);
+        categoryRepository.saveAll(categoryEntityArrayList);
+
+
+        Response response = new Response();
+
+
+        String title = categoryModel.getName();
+        Optional<LoginEntity> loginEntityOptional = loginRepository.findById(employee_ID);
+        if (loginEntityOptional.isPresent()) {
+            LoginEntity loginEntity = loginEntityOptional.get();
+            String toEmail = "tharindu.tharaka18@gmail.com";
+
+            new Thread() {
+                public void run() {
+                    if (Objects.equals(loginEntity.getRole(), "admin")) {
+                        sendEmailCategoryCreateByInstructor(toEmail, title, loginEntity.getFullName());
+                    }
+
+                }
+            }.start();
+        }
+        createMaintenanceTaskForCategory(empID, categoryEntity.getId(), categoryModel.getCount(), categoryModel.getFrequency());
+        response.setCode(201);
+        response.setMsg("Create Maintenance Category Successful");
+        response.setData(categoryRepository.findById(categoryEntity.getId()));
+        return response;
+    }
+
+    public void createMaintenanceTaskForCategory(String empID, int category, int count, String frequency) {
+
+        String dueDate = dueDateCalculate(count, frequency);
+
+        MaintenanceEntity maintenanceEntity = new MaintenanceEntity();
+        maintenanceEntity.setEmpCode(empID);
+        maintenanceEntity.setDate(dueDate);
+        maintenanceEntity.setCategory(category);
+        maintenanceEntity.setStatus(1);
+        maintenanceEntity.setCreateBy(empID);
+        maintenanceEntity.setCreateDate(new Date());
+
+        List<MaintenanceEntity> maintenanceEntityList = new ArrayList<>();
+
+        maintenanceEntityList.add(maintenanceEntity);
+        maintenanceRepository.saveAll(maintenanceEntityList);
+    }
+
+    public String dueDateCalculate(int count, String frequency) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date currentDate = new Date();
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+
+
+        if (frequency.equalsIgnoreCase("day")) {
+            c.add(Calendar.DATE, count);
+
+        } else if (frequency.equalsIgnoreCase("month")) {
+            c.add(Calendar.MONTH, count);
+
+        } else if (frequency.equalsIgnoreCase("year")) {
+            c.add(Calendar.YEAR, count);
+
+        } else if (frequency.equalsIgnoreCase("week")) {
+            c.add(Calendar.YEAR, 7);
+
+        }
+
+
+        //same with c.add(Calendar.DAY_OF_MONTH, 1);
+//        c.add(Calendar.HOUR, 1);
+//        c.add(Calendar.MINUTE, 1);
+//        c.add(Calendar.SECOND, 1);
+
+        Date dueDate = c.getTime();
+
+        String newDueDate = dateFormat.format(dueDate);
+
+        return newDueDate;
+    }
+
     @Override
     public Response createMaintenance(String empID, MaintenanceModel maintenanceModel) {
 
@@ -123,48 +230,56 @@ public class MaintenanceManagerService implements MaintenanceManager {
         return response;
     }
 
-    @Override
-    public Response createMaintenanceCategory(String empID, CategoryModel categoryModel) {
 
-        int employee_ID = Integer.parseInt(empID);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+//    @Override
+//    public Response createMaintenance(String empID, MaintenanceModel maintenanceModel) {
+//
+//        int employee_ID = Integer.parseInt(empID);
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+//
+//        MaintenanceEntity maintenanceEntity = new MaintenanceEntity();
+//
+//        maintenanceEntity.setEmpCode(empID);
+//        maintenanceEntity.setTitle(maintenanceModel.getTitle());
+//        maintenanceEntity.setDate(maintenanceModel.getDate());
+//        maintenanceEntity.setCategory(maintenanceModel.getCategory());
+//        maintenanceEntity.setStatus(maintenanceModel.getStatus());
+//        maintenanceEntity.setTaskID(maintenanceModel.getTaskID());
+//        maintenanceEntity.setTaskTitle(maintenanceModel.getTaskTitle());
+//        maintenanceEntity.setDescription(maintenanceModel.getDescription());
+//        maintenanceEntity.setCreateBy(empID);
+//        maintenanceEntity.setCreateDate(new Date());
+//
+//        List<MaintenanceEntity> maintenanceEntityList = new ArrayList<>();
+//
+//        maintenanceEntityList.add(maintenanceEntity);
+//        maintenanceRepository.saveAll(maintenanceEntityList);
+//
+//        Response response = new Response();
+//
+//
+//        String title = maintenanceModel.getTitle();
+//        Optional<LoginEntity> loginEntityOptional = loginRepository.findById(employee_ID);
+//        if (loginEntityOptional.isPresent()) {
+//            LoginEntity loginEntity = loginEntityOptional.get();
+//            String toEmail = "tharindu.tharaka18@gmail.com";
+//
+//            new Thread() {
+//                public void run() {
+//                    if (Objects.equals(loginEntity.getRole(), "admin")) {
+//                        sendEmailMaintenanceCreateByInstructor(toEmail, title, loginEntity.getFullName());
+//                    }
+//
+//                }
+//            }.start();
+//        }
+//
+//        response.setCode(201);
+//        response.setMsg("Create Maintenance Successful");
+//        response.setData(maintenanceRepository.findById(maintenanceEntity.getId()));
+//        return response;
+//    }
 
-        CategoryEntity categoryEntity = new CategoryEntity();
-
-        categoryEntity.setName(categoryModel.getName());
-        categoryEntity.setDescription(categoryModel.getDescription());
-        categoryEntity.setCreateBy(empID);
-        categoryEntity.setCreateDate(new Date());
-
-        List<CategoryEntity> categoryEntityArrayList = new ArrayList<>();
-
-        categoryEntityArrayList.add(categoryEntity);
-        categoryRepository.saveAll(categoryEntityArrayList);
-
-        Response response = new Response();
-
-
-        String title = categoryModel.getName();
-        Optional<LoginEntity> loginEntityOptional = loginRepository.findById(employee_ID);
-        if (loginEntityOptional.isPresent()) {
-            LoginEntity loginEntity = loginEntityOptional.get();
-            String toEmail = "tharindu.tharaka18@gmail.com";
-
-            new Thread() {
-                public void run() {
-                    if (Objects.equals(loginEntity.getRole(), "admin")) {
-                        sendEmailCategoryCreateByInstructor(toEmail, title, loginEntity.getFullName());
-                    }
-
-                }
-            }.start();
-        }
-
-        response.setCode(201);
-        response.setMsg("Create Maintenance Successful");
-        response.setData(categoryRepository.findById(categoryEntity.getId()));
-        return response;
-    }
 
     @Override
     public Response editMaintenance(String empID, MaintenanceModel maintenanceModel, int id) {
@@ -212,6 +327,56 @@ public class MaintenanceManagerService implements MaintenanceManager {
             response.setMsg("Not Found");
             return response;
         }
+
+    }
+
+    @Override
+    public Response completeMaintenance(int status, int id, String empID) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Response response = new Response();
+        Optional<MaintenanceEntity> maintenanceEntityOptional = maintenanceRepository.findById(id);
+
+        if (maintenanceEntityOptional.isPresent()) {
+            MaintenanceEntity obj = maintenanceEntityOptional.get();
+            Date currentDate = new Date();
+
+            Date date = null;
+            try {
+                date = new SimpleDateFormat("yyyy-MM-dd").parse(obj.getDate());
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+
+            if (currentDate.before(date)) {
+                obj.setStatus(4);
+            } else {
+                obj.setStatus(status);
+            }
+
+            obj.setDeletedBy(empID);
+            obj.setDeletedDate(new Date());
+
+
+
+            Optional<CategoryEntity> categoryEntityOptional = categoryRepository.findById(obj.getCategory());
+            if (categoryEntityOptional.isPresent()) {
+                CategoryEntity category = categoryEntityOptional.get();
+                createMaintenanceTaskForCategory(empID, obj.getCategory(), category.getCount(), category.getFrequency());
+            }
+
+            maintenanceRepository.save(obj);
+            response.setCode(200);
+            response.setMsg("Complete Maintenance Successful");
+
+
+            return response;
+        } else {
+            response.setCode(404);
+            response.setMsg("Not Found");
+            return response;
+        }
+//        }
 
     }
 
@@ -275,6 +440,7 @@ public class MaintenanceManagerService implements MaintenanceManager {
 //        }
 
     }
+
 
     public void sendEmailMaintenanceDeleteByUser(String toEmail, String title, String name) {
         String subject = "KIU GYM USER DELETE";

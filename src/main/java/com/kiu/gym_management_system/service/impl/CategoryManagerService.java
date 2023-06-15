@@ -66,7 +66,9 @@ public class CategoryManagerService implements CategoryManager {
             CategoryEntity categoryEntity = categoryEntityOptional.get();
 
             categoryEntity.setName(categoryModel.getName());
-            categoryEntity.setStatus(categoryModel.getStatus());
+            categoryEntity.setCount(categoryModel.getCount());
+            categoryEntity.setFrequency(categoryModel.getFrequency());
+            categoryEntity.setStatus(1);
             categoryEntity.setDescription(categoryModel.getDescription());
             categoryEntity.setUpdatedBy(empID);
             categoryEntity.setUpdatedDate(new Date());
@@ -145,7 +147,6 @@ public class CategoryManagerService implements CategoryManager {
 //                    }
 //                }.start();
 //            }
-
 
             response.setCode(200);
             response.setMsg("Delete Reservation Successful");
