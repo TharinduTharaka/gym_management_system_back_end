@@ -164,7 +164,8 @@ public class MaintenanceManagerService implements MaintenanceManager {
             c.add(Calendar.YEAR, count);
 
         } else if (frequency.equalsIgnoreCase("week")) {
-            c.add(Calendar.YEAR, 7);
+            count = count * 7;
+            c.add(Calendar.DATE, count);
 
         }
 
@@ -331,7 +332,7 @@ public class MaintenanceManagerService implements MaintenanceManager {
     }
 
     @Override
-    public Response completeMaintenance(int status, int id, String empID) {
+    public Response completeMaintenance(int id, int status, String empID) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Response response = new Response();
@@ -339,6 +340,11 @@ public class MaintenanceManagerService implements MaintenanceManager {
 
         if (maintenanceEntityOptional.isPresent()) {
             MaintenanceEntity obj = maintenanceEntityOptional.get();
+            obj.setStatus(status);
+            obj.setUpdatedBy(empID);
+            obj.setUpdatedDate(new Date());
+
+
             Date currentDate = new Date();
 
             Date date = null;
@@ -348,16 +354,11 @@ public class MaintenanceManagerService implements MaintenanceManager {
                 throw new RuntimeException(e);
             }
 
-            if (currentDate.before(date)) {
+            if (currentDate.after(date)) {
                 obj.setStatus(4);
             } else {
                 obj.setStatus(status);
             }
-
-            obj.setDeletedBy(empID);
-            obj.setDeletedDate(new Date());
-
-
 
             Optional<CategoryEntity> categoryEntityOptional = categoryRepository.findById(obj.getCategory());
             if (categoryEntityOptional.isPresent()) {

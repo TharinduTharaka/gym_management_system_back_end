@@ -13,5 +13,7 @@ public interface MaintenanceRepository extends JpaRepository<MaintenanceEntity, 
 
     List<MaintenanceEntity>findAllByEmpCode(@Param("emp_code") String empCode);
 
+//    List<MaintenanceEntity>findAllByEmpCode(@Param("emp_code") String empCode);
+
     List<MaintenanceEntity>findByStatus(@Param("status") int status);
 }

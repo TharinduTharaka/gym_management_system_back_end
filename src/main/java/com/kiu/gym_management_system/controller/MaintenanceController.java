@@ -60,14 +60,14 @@ public class MaintenanceController {
     public Response completeMaintenance(@PathVariable int id,
                                       @PathVariable String emp_id,
                                       @RequestParam(value = "status") int status) {
-        return maintenanceManagerService.completeMaintenance(status, id, emp_id);
+        return maintenanceManagerService.completeMaintenance(id,status, emp_id);
     }
 
     @PutMapping("/delete-maintenance/{id}/{emp_id}")
     public Response deleteMaintenance(@PathVariable int id,
                                       @PathVariable String emp_id,
                                       @RequestParam(value = "status") int status) {
-        return maintenanceManagerService.deleteMaintenance(status, id, emp_id);
+        return maintenanceManagerService.deleteMaintenance(id,status, emp_id);
     }
 
 }
