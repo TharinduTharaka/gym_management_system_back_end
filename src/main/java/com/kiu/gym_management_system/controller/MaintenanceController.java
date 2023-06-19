@@ -56,12 +56,12 @@ public class MaintenanceController {
         return maintenanceManagerService.editMaintenance(emp_id, maintenanceModel, id);
     }
 
-    @PutMapping("/complete-maintenance/{id}/{emp_id}")
-    public Response completeMaintenance(@PathVariable int id,
-                                      @PathVariable String emp_id,
-                                      @RequestParam(value = "status") int status) {
-        return maintenanceManagerService.completeMaintenance(id,status, emp_id);
-    }
+//    @PutMapping("/complete-maintenance/{id}/{emp_id}")
+//    public Response completeMaintenance(@PathVariable int id,
+//                                      @PathVariable String emp_id,
+//                                      @RequestParam(value = "status") int status) {
+//        return maintenanceManagerService.completeMaintenance(id,status, emp_id);
+//    }
 
     @PutMapping("/delete-maintenance/{id}/{emp_id}")
     public Response deleteMaintenance(@PathVariable int id,

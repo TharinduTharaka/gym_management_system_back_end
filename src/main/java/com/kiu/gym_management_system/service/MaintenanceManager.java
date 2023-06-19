@@ -18,7 +18,7 @@ public interface MaintenanceManager {
     Response editMaintenance(String empID,MaintenanceModel maintenanceModel, int id);
 
 
-    Response completeMaintenance(int status, int id,String empID);
+//    Response completeMaintenance(int status, int id,String empID);
 
     Response deleteMaintenance(int status, int id,String empID);
 
