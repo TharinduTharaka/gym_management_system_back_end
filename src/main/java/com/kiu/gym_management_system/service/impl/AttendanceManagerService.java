@@ -3,6 +3,7 @@ package com.kiu.gym_management_system.service.impl;
 import com.kiu.gym_management_system.entity.AttendanceEntity;
 import com.kiu.gym_management_system.entity.IclockTransactionEntity;
 import com.kiu.gym_management_system.entity.InOutTimeEntity;
+import com.kiu.gym_management_system.model.attendance.AttendanceModel;
 import com.kiu.gym_management_system.repository.AttendanceRepository;
 import com.kiu.gym_management_system.repository.IclockTransactionRepository;
 import com.kiu.gym_management_system.response.Response;
@@ -25,6 +26,32 @@ public class AttendanceManagerService implements AttendanceManager {
     @Autowired
     IclockTransactionRepository iclockTransactionRepository;
 
+
+    @Override
+    public Response createFingerprintsAttendance(String empID, AttendanceModel attendanceModel) {
+        int employee_ID = Integer.parseInt(empID);
+
+        AttendanceEntity attendanceEntity = new AttendanceEntity();
+        List<AttendanceEntity> attendanceEntityList = new ArrayList<>();
+
+        attendanceEntity.setEmpCode(attendanceModel.getEmpCode());
+        attendanceEntity.setEmpName(attendanceModel.getEmpName());
+        attendanceEntity.setDate(attendanceModel.getDate());
+        attendanceEntity.setInTime(attendanceModel.getInTime());
+        attendanceEntity.setOutTime(attendanceModel.getOutTime());
+        attendanceEntity.setWorkDuration(attendanceModel.getWorkDuration());
+        attendanceEntity.setRole(attendanceModel.getRole());
+        attendanceEntity.setStatus(attendanceModel.getStatus());
+        attendanceEntity.setCreateBy(empID);
+        attendanceEntity.setCreateDate(new Date());
+        attendanceEntityList.add(attendanceEntity);
+        attendanceRepository.saveAll(attendanceEntityList);
+
+        Response response = new Response();
+        response.setCode(201);
+        response.setMsg("Create Finger Prints Attendance Successful");
+        return response;
+    }
 
     @Override
     public Response getAllAttendance() {
@@ -63,6 +90,7 @@ public class AttendanceManagerService implements AttendanceManager {
         return response;
     }
 
+
     @Override
     public Response getUserAttendance(String empID, String role) {
 
@@ -78,6 +106,8 @@ public class AttendanceManagerService implements AttendanceManager {
             attendanceEntity.setInTime(attendance.getInTime());
             attendanceEntity.setOutTime(attendance.getOutTime());
             attendanceEntity.setWorkDuration(attendance.getWorkDuration());
+            attendanceEntity.setStatus(attendance.getStatus());
+            attendanceEntity.setRole(attendance.getRole());
             attendanceEntitiesList.add(attendanceEntity);
 
         }

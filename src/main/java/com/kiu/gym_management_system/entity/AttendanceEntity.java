@@ -38,6 +38,9 @@ public class AttendanceEntity {
     @Column(name= "role")
     private String role;
 
+    @Column(name= "status")
+    private String status;
+
     @Column(name= "workDuration")
     private String workDuration;
 
